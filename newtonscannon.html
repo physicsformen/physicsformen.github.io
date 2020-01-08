@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Newton's Cannon</title>
+        
+    </head>
+    <body style="font-family:sans-serif;">
+        <h1>Newton's Cannon</h1>
+
+        <div style="width:500px; margin-left:auto; margin-right:auto;">
+            <img style="position:absolute;" src="NewtonDrawing.jpg" width="500" height="500">
+            <canvas style="position: relative;" id="theCanvas" width="500" height="500">
+                Canvas not supported
+            </canvas>
+        </div>
+        <p>Description</p>
+
+        <script>
+            var theCanvas = document.getElementById("theCanvas");
+            var theContext = theCanvas.getContext("2d");
+            
+            var earthRadius = 6371000;
+            var mountainHeight = earthRadius * 0.165;
+            var x = 0;
+            var y = earthRadius + mountainHeight;
+            var vx = 6000;
+            var vy = 0;
+            function drawProjectile(){
+                console.log("entering drawProjectile");
+                var metersPerPixel = earthRadius / (0.355 * theCanvas.width);
+                var pixelX = theCanvas.width/2 + x/metersPerPixel;
+                var pixelY = theCanvas.height/2 - y/metersPerPixel;
+                //theContext.clearRect(0,0,theCanvas.width, theCanvas.height);
+                theContext.beginPath();
+              
+
+                //theContext.arc(x,y,radius,start angle, end angle)
+                
+                //theContext.arc(x,y,5,0,2*Math.PI);
+                theContext.arc(pixelX,pixelY,3,0,2*Math.PI);
+
+                theContext.fillStyle = "red";
+                theContext.fill();
+            }
+            function moveProjectile(){
+                console.log("entering moveProjection");
+                var newtonG = 6.67e-11;
+                var earthMass = 5.97e24;
+                var dt = 5;
+                var r = Math.sqrt(x*x + y*y)
+                if (r > earthRadius){
+                    var accel = newtonG * earthMass / (r * r)
+                    var ax = -accel * x / r;
+                    var ay = -accel * y / r;
+                    vx += ax * dt;
+                    vy += ay * dt;
+
+                    var lastx = x;
+                    x += vx * dt;
+                    y += vy * dt;
+                    console.log("current postion: " + x +", " + y);
+
+                    drawProjectile();
+                    if(!((lastx < 0) && (x >= 0))){
+                        window.setTimeout(moveProjectile, 1000/30);
+                    }
+                }
+            }
+            moveProjectile();
+           
+        </script>
+    </body>
+</html>
+
