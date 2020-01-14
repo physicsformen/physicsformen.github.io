@@ -9,7 +9,7 @@
         <h1>Newton's Cannon</h1>
 
         <div style="width:500px; margin-left:auto; margin-right:auto;">
-            <img style="position:absolute;" src="NewtonDrawing.png" width="500" height="500">
+            <img style="position:absolute;" src="finalpic.jpg" width="500" height="500">
             <canvas style="position: relative;" id="theCanvas" width="500" height="500">
                 Canvas not supported
             </canvas>
@@ -30,7 +30,7 @@
                 console.log("entering drawProjectile");
                 var metersPerPixel = earthRadius / (0.355 * theCanvas.width);
                 var pixelX = theCanvas.width/2 + x/metersPerPixel;
-                var pixelY = theCanvas.height/2 - y/metersPerPixel;
+                var pixelY = theCanvas.height/2 - y/metersPerPixel + 90;
                 //theContext.clearRect(0,0,theCanvas.width, theCanvas.height);
                 theContext.beginPath();
               
@@ -40,7 +40,8 @@
                 //theContext.arc(x,y,5,0,2*Math.PI);
                 theContext.arc(pixelX,pixelY,3,0,2*Math.PI);
 
-                theContext.fillStyle = rgb(255, 195, 0);
+                //theContext.fillStyle = rgb(255, 195, 0);
+                theContext.fillStyle = "yellow";
                 theContext.fill();
             }
             function moveProjectile(){
