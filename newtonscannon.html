@@ -8,7 +8,11 @@
     <body style="font-family:sans-serif;">
         <h1>Newton's Cannon</h1>
 
+        <input type="button" value="Pee!" onclick="fireProjectile();">
+        Initial speed = <span id="speedReadout">3000</span> m/s
+        <input type="range" id="speedSlider" min="0" max="8000" step="100" value="3000" oninput="showSpeed();" onchange="showSpeed();">
         <div style="width:500px; margin-left:auto; margin-right:auto;">
+            
             <img style="position:absolute;" src="finalpic.jpg" width="500" height="500">
             <canvas style="position: relative;" id="theCanvas" width="500" height="500">
                 Canvas not supported
@@ -19,13 +23,25 @@
         <script>
             var theCanvas = document.getElementById("theCanvas");
             var theContext = theCanvas.getContext("2d");
-            
+            var speedSlider = document.getElementById("speedSlider");
+            var speedReadout = document.getElementById("speedReadout");
+
             var earthRadius = 6371000;
             var mountainHeight = earthRadius * 0.165;
-            var x = 0;
-            var y = earthRadius + mountainHeight;
-            var vx = 6000;
-            var vy = 0;
+
+            var x, y, vx, vy; //position and velocity
+
+            function showSpeed(){
+                speedReadout.innerHTML = speedSlider.value;
+            }
+
+            function fireProjectile(){
+                x = 0;
+                y = earthRadius + mountainHeight;
+                vx=Number(speedSlider.value);
+                vy = 0;
+                moveProjectile();
+            }
             function drawProjectile(){
                 console.log("entering drawProjectile");
                 var metersPerPixel = earthRadius / (0.355 * theCanvas.width);
@@ -41,7 +57,7 @@
                 theContext.arc(pixelX,pixelY,3,0,2*Math.PI);
 
                 //theContext.fillStyle = rgb(255, 195, 0);
-                theContext.fillStyle = "yellow";
+                theContext.fillStyle = "gold";
                 theContext.fill();
             }
             function moveProjectile(){
